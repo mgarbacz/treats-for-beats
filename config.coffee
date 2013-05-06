@@ -10,3 +10,7 @@ exports.config =
     stylesheets:
       joinTo:
         'ss/app.css': /^app/
+
+  plugins:
+    sass:
+      debug: 'comments'
