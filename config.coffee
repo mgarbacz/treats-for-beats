@@ -5,8 +5,8 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'javascripts/app.js': /^app/
+        'js/app.js': /^app/
 
     stylesheets:
       joinTo:
-        'stylesheets/app.css': /^(app)/
+        'ss/app.css': /^app/
