@@ -74,7 +74,7 @@
     context.clearRect(0, 0, treatCanvas.width, treatCanvas.height);
 
     // Get song data
-    songAnalyser.smoothingTimeConstant = 0.1;
+    songAnalyser.smoothingTimeConstant = 0.75;
     songAnalyser.getByteFrequencyData(freqByteData);
 
     // Colors for treat
