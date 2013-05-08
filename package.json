@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "brunch watch --server",
-    "test": "brunch test"
+    "test": "jasmine-node test/ --coffee"
   },
   "dependencies": {
     "javascript-brunch": ">= 1.0 < 1.7",
@@ -16,5 +16,8 @@
     "coffeelint-brunch": ">= 1.0 < 1.7",
 
     "auto-reload-brunch": ">= 1.0 < 1.7"
+  },
+  "devDependencies": {
+    "jasmine-node": "1.7.x"
   }
 }
