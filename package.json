@@ -1,4 +1,8 @@
 {
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mgarbacz/treats-for-beats.git"
+  },
   "scripts": {
     "start": "brunch watch --server",
     "test": "jasmine-node test/ --coffee"
