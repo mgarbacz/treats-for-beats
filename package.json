@@ -4,7 +4,7 @@
     "url": "git@github.com:mgarbacz/treats-for-beats.git"
   },
   "scripts": {
-    "start": "brunch watch --server",
+    "start": "brunch watch",
     "test": "jasmine-node test/ --coffee"
   },
   "dependencies": {
