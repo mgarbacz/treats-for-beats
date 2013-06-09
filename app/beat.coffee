@@ -1,6 +1,6 @@
 module.exports = class Beat
-  constructor: (@beatUrl) ->
-    @beat = null
+  constructor: (@url) ->
+    @audio = null
     @context = null
     @source = null
     @analyser = null
@@ -19,28 +19,27 @@ module.exports = class Beat
     return true
 
   load: ->
-    @beat = new Audio()
-    @beat.src = @beatUrl
-    @beat.controls = false
-    @beat.autoplay = false
-    @beat.loop = false
+    @audio = new Audio()
+    @audio.src = @url
+    @audio.controls = false
+    @audio.autoplay = false
+    @audio.loop = false
 
-    $('#treat-container').append @beat
+    $('#treat-container').append @audio
 
     # Wait for canplay event to run analyser
-    @beat.addEventListener 'canplay', (e) =>
+    @audio.addEventListener 'canplay', (e) =>
       @analyse()
 
   analyse: ->
-    @source = @context.createMediaElementSource @beat
+    @source = @context.createMediaElementSource @audio
     @analyser = @context.createAnalyser()
 
     @source.connect @analyser
     @analyser.connect @context.destination
 
   play: ->
-    @beat.play()
+    @audio.play()
 
   stop: ->
-    @beat.pause()
-
+    @audio.pause()

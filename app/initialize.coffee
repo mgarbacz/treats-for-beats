@@ -16,4 +16,3 @@ window.onload = ->
   treat = new Treat('#44bb44')
   treat.init()
   treat.animate(beat)
-

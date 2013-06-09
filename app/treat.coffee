@@ -37,4 +37,3 @@ module.exports = class Treat
     @context.fill()
 
     window.requestAnimationFrame => @animate(beat)
-
