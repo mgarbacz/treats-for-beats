@@ -1,5 +1,5 @@
 module.exports = class Treat
-  constructor: (@fillColor) ->
+  constructor: (@fillColor, @sourceBeat) ->
     @canvas =  document.getElementById 'treat'
     @context = @canvas.getContext '2d'
     @frequencyByteData = new Uint8Array
@@ -19,14 +19,15 @@ module.exports = class Treat
 
     @context.fillStyle = @fillColor
 
-  animate: (beat) ->
+  animate: ->
     # Clear canvas from previous frame
     @context.clearRect 0, 0, @canvas.width, @canvas.height
 
     # Get song data
-    if beat.analyser isnt null
-      @frequencyByteData = new Uint8Array beat.analyser.frequencyBinCount
-      beat.analyser.getByteFrequencyData @frequencyByteData
+    if @sourceBeat.analyser isnt null
+      @frequencyByteData =
+        new Uint8Array @sourceBeat.analyser.frequencyBinCount
+      @sourceBeat.analyser.getByteFrequencyData @frequencyByteData
 
     @context.beginPath()
     for index in [0..@frequencyByteData.length]
@@ -36,4 +37,4 @@ module.exports = class Treat
                    height, 0 , 2 * Math.PI, false
     @context.fill()
 
-    window.requestAnimationFrame => @animate(beat)
+    window.requestAnimationFrame => @animate()
