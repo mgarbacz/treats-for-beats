@@ -11,10 +11,8 @@ window.onload = ->
     treat.init()
     treat.animate()
 
-    $('#play-song').click ->
-      beat.play()
-    $('#stop-song').click ->
-      beat.stop()
+    $('#play-song').click -> beat.play()
+    $('#stop-song').click -> beat.stop()
   else
     $('#treat-container').hide()
     $('#browser-warning').show()
