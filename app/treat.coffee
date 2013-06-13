@@ -2,6 +2,7 @@ module.exports = class Treat
   constructor: (@fillColor, @sourceBeat) ->
     @canvas =  document.getElementById 'treat'
     @context = @canvas.getContext '2d'
+    # This array stores info about our song
     @frequencyByteData = new Uint8Array
 
   init: ->
@@ -23,13 +24,15 @@ module.exports = class Treat
     # Clear canvas from previous frame
     @context.clearRect 0, 0, @canvas.width, @canvas.height
 
-    # Get song data
+    # Get song data from source beat if beat is playing
     if @sourceBeat.analyser isnt null
       @frequencyByteData =
         new Uint8Array @sourceBeat.analyser.frequencyBinCount
       @sourceBeat.analyser.getByteFrequencyData @frequencyByteData
 
     @context.beginPath()
+    # Drawing each element of song data as a circle of radius defined
+    # by the number given as frequencyByteData for said element
     for index in [0..@frequencyByteData.length]
       height = @frequencyByteData[index]
       @context.arc @context.canvas.width / 300 * index,

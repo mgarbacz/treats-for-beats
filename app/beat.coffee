@@ -19,12 +19,14 @@ module.exports = class Beat
     return true
 
   load: ->
+    # Creating an audio element for the beat
     @audio = new Audio()
     @audio.src = @url
     @audio.controls = false
     @audio.autoplay = false
     @audio.loop = false
 
+    # Need to stick the audio element on the page
     $('#treat-container').append @audio
 
     # Wait for canplay event to run analyser
@@ -32,6 +34,7 @@ module.exports = class Beat
       @analyse()
 
   analyse: ->
+    # The analyser will allow us to have data about the beat
     @source = @context.createMediaElementSource @audio
     @analyser = @context.createAnalyser()
 
