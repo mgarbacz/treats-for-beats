@@ -39,9 +39,9 @@ module.exports = class Beat
     @analyser = @context.createAnalyser()
 
     # Set size of Fast Fourier Transform used to determine frequency domain
-    @analyser.fftSize = 32
+    @analyser.fftSize = 1024
     # Set average constant with last frame
-    @analyser.smoothingTimeConstant = 0.8
+    @analyser.smoothingTimeConstant = 0.5
 
     @source.connect @analyser
     @analyser.connect @context.destination
