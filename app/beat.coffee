@@ -38,6 +38,11 @@ module.exports = class Beat
     @source = @context.createMediaElementSource @audio
     @analyser = @context.createAnalyser()
 
+    # Set size of Fast Fourier Transform used to determine frequency domain
+    @analyser.fftSize = 32
+    # Set average constant with last frame
+    @analyser.smoothingTimeConstant = 0.8
+
     @source.connect @analyser
     @analyser.connect @context.destination
 
