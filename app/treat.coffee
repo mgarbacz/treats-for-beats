@@ -17,10 +17,11 @@ module.exports = class Treat
       window.msRequestAnimationFrame
 
     # Set canvas to window's size
-    @context.canvas.width = window.innerWidth * 7/6
-    @context.canvas.height = window.innerHeight * 2/3
-    @context2.canvas.width = window.innerWidth * 7/6
-    @context2.canvas.height = window.innerHeight * 2/3
+    canvasRotationAngle = (1/6) * Math.PI
+    @context.canvas.width = window.innerWidth / Math.cos(canvasRotationAngle)
+    @context.canvas.height = window.innerHeight / 2
+    @context2.canvas.width = window.innerWidth / Math.cos(canvasRotationAngle)
+    @context2.canvas.height = window.innerHeight / 2
 
     @context.fillStyle = @fillColor
     @context2.fillStyle = @fillColor2

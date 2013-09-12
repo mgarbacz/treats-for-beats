@@ -1,7 +1,7 @@
 Beat = require 'beat'
 Treat = require 'treat'
 
-window.onload = ->
+$ ->
   beat = new Beat('beats/polygons.mp3')
   treat = new Treat('#44bb44', '#bb44bb', beat)
 
