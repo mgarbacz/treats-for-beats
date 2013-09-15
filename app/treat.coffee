@@ -1,7 +1,7 @@
 module.exports = class Treat
-  constructor: (@fillColor, @fillColor2, @sourceBeat) ->
-    @canvas =  document.getElementById 'treat'
-    @context = @canvas.getContext '2d'
+  constructor: (@fillColor1, @fillColor2, @sourceBeat) ->
+    @canvas1 =  document.getElementById 'treat1'
+    @context1 = @canvas1.getContext '2d'
     @canvas2 =  document.getElementById 'treat2'
     @context2 = @canvas2.getContext '2d'
     # This array stores info about our song
@@ -18,17 +18,20 @@ module.exports = class Treat
 
     # Set canvas to window's size
     canvasRotationAngle = (1/6) * Math.PI
-    @context.canvas.width = window.innerWidth / Math.cos(canvasRotationAngle)
-    @context.canvas.height = window.innerHeight / 2
-    @context2.canvas.width = window.innerWidth / Math.cos(canvasRotationAngle)
-    @context2.canvas.height = window.innerHeight / 2
+    canvasWidth = window.innerWidth / Math.cos(canvasRotationAngle)
+    canvasHeight = window.innerHeight / 2
 
-    @context.fillStyle = @fillColor
+    @context1.canvas.width = canvasWidth
+    @context1.canvas.height = canvasHeight
+    @context2.canvas.width = canvasWidth
+    @context2.canvas.height = canvasHeight
+
+    @context1.fillStyle = @fillColor1
     @context2.fillStyle = @fillColor2
 
   animate: ->
     # Clear canvas from previous frame
-    @context.clearRect 0, 0, @canvas.width, @canvas.height
+    @context1.clearRect 0, 0, @canvas1.width, @canvas1.height
     @context2.clearRect 0, 0, @canvas2.width, @canvas2.height
 
     # Get song data from source beat if beat is playing
@@ -37,20 +40,23 @@ module.exports = class Treat
         new Uint8Array @sourceBeat.analyser.frequencyBinCount
       @sourceBeat.analyser.getByteFrequencyData @frequencyByteData
 
-    @context.beginPath()
+    # Drawing first 32 elements of song data as `bubbles` of radius 20 that bob
+    # up and down by the number given as frequencyByteData for said element
+    @context1.beginPath()
     @context2.beginPath()
-    # Drawing each element of song data as a circle of radius defined
-    # by the number given as frequencyByteData for said element
-    for index in [0..@frequencyByteData.length]
-      radius = 1 + @frequencyByteData[index]
-      radius2 = 1 + @frequencyByteData[index + 15]
-      @context.arc @context.canvas.width / 15 * index,
-                   @context.canvas.height - radius,
-                   20, 0 , 2 * Math.PI, false
-      @context2.arc @context2.canvas.width / 15 * index,
-                    @context2.canvas.height - radius2,
-                    20, 0 , 2 * Math.PI, false
-    @context.fill()
+    for index in [0..15]
+      bubbleBob1 = @frequencyByteData[index]
+      bubbleBob2 = @frequencyByteData[index + 16]
+      bubbleRadius = 35
+      bubbleX = @context1.canvas.width / 15 * index
+      bubbleY = @context1.canvas.height + bubbleRadius
+
+      @context1.arc bubbleX, bubbleY - bubbleBob1, bubbleRadius,
+                    0, 2 * Math.PI, false
+      @context2.arc bubbleX, bubbleY - bubbleBob2, bubbleRadius,
+                    0, 2 * Math.PI, false
+
+    @context1.fill()
     @context2.fill()
 
     window.requestAnimationFrame => @animate()
