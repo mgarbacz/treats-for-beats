@@ -45,12 +45,12 @@ module.exports = class Treat
     # Drawing each element of song data as a circle of radius defined
     # by the number given as frequencyByteData for said element
     for index in [0..@frequencyByteData.length]
-      radius = @frequencyByteData[index] / 3
+      radius = 1 + @frequencyByteData[index] / 3
       @context.arc @context.canvas.width / 15 * index,
                    @context.canvas.height * @heights[index]
                    radius, 0 , 2 * Math.PI, false
       @context2.arc @context2.canvas.width / 15 * index,
-                    @context2.canvas.height * @heights[index],
+                    @context2.canvas.height * @heights[1024 - index],
                     radius, 0 , 2 * Math.PI, false
     @context.fill()
     @context2.fill()
