@@ -26,9 +26,6 @@ module.exports = class Treat
     @context.fillStyle = @fillColor
     @context2.fillStyle = @fillColor2
 
-    @heights = []
-    @heights.push Math.random() for index in [0..512]
-
   animate: ->
     # Clear canvas from previous frame
     @context.clearRect 0, 0, @canvas.width, @canvas.height
@@ -45,14 +42,14 @@ module.exports = class Treat
     # Drawing each element of song data as a circle of radius defined
     # by the number given as frequencyByteData for said element
     for index in [0..@frequencyByteData.length]
-      radius = 1 + @frequencyByteData[index] / 3
-      radius2 = 1 + @frequencyByteData[index + 15] / 3
+      radius = 1 + @frequencyByteData[index]
+      radius2 = 1 + @frequencyByteData[index + 15]
       @context.arc @context.canvas.width / 15 * index,
-                   @context.canvas.height * @heights[index]
-                   radius, 0 , 2 * Math.PI, false
+                   @context.canvas.height - radius,
+                   20, 0 , 2 * Math.PI, false
       @context2.arc @context2.canvas.width / 15 * index,
-                    @context2.canvas.height * @heights[512 - index],
-                    radius2, 0 , 2 * Math.PI, false
+                    @context2.canvas.height - radius2,
+                    20, 0 , 2 * Math.PI, false
     @context.fill()
     @context2.fill()
 
