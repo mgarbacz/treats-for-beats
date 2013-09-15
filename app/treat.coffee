@@ -27,7 +27,7 @@ module.exports = class Treat
     @context2.fillStyle = @fillColor2
 
     @heights = []
-    @heights.push Math.random() for index in [0..1024]
+    @heights.push Math.random() for index in [0..512]
 
   animate: ->
     # Clear canvas from previous frame
@@ -46,12 +46,13 @@ module.exports = class Treat
     # by the number given as frequencyByteData for said element
     for index in [0..@frequencyByteData.length]
       radius = 1 + @frequencyByteData[index] / 3
+      radius2 = 1 + @frequencyByteData[index + 15] / 3
       @context.arc @context.canvas.width / 15 * index,
                    @context.canvas.height * @heights[index]
                    radius, 0 , 2 * Math.PI, false
       @context2.arc @context2.canvas.width / 15 * index,
-                    @context2.canvas.height * @heights[1024 - index],
-                    radius, 0 , 2 * Math.PI, false
+                    @context2.canvas.height * @heights[512 - index],
+                    radius2, 0 , 2 * Math.PI, false
     @context.fill()
     @context2.fill()
 
