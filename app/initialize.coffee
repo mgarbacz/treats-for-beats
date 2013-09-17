@@ -10,7 +10,7 @@ $ ->
     # Loading the beat into the DOM
     beat.load()
 
-    # Initializing and starting the animation
+    # Initializing the animation
     treat.init()
 
     # Enabling song controls

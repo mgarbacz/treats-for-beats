@@ -29,6 +29,7 @@ module.exports = class Treat
     @context1.fillStyle = @fillColor1
     @context2.fillStyle = @fillColor2
 
+    # Start animating when song begins playing
     @sourceBeat.audio.addEventListener 'playing', (e) =>
       console.log('playing')
       this.animate()
@@ -66,4 +67,5 @@ module.exports = class Treat
     @context1.fill()
     @context2.fill()
 
+    # Do next frame, unless song is paused
     window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
