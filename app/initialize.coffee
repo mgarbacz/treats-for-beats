@@ -12,7 +12,6 @@ $ ->
 
     # Initializing and starting the animation
     treat.init()
-    treat.animate()
 
     # Enabling song controls
     $('#play-song').click -> beat.play()

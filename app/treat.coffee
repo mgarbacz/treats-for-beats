@@ -29,6 +29,13 @@ module.exports = class Treat
     @context1.fillStyle = @fillColor1
     @context2.fillStyle = @fillColor2
 
+    @sourceBeat.audio.addEventListener 'playing', (e) =>
+      console.log('playing')
+      this.animate()
+
+    @sourceBeat.audio.addEventListener 'pause', (e) =>
+      console.log('paused')
+
   animate: ->
     # Clear canvas from previous frame
     @context1.clearRect 0, 0, @canvas1.width, @canvas1.height
@@ -59,4 +66,4 @@ module.exports = class Treat
     @context1.fill()
     @context2.fill()
 
-    window.requestAnimationFrame => @animate()
+    window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
