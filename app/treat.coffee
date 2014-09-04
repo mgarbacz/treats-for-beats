@@ -69,9 +69,9 @@ module.exports = class Treat
     newBubble =
       x: Math.random() * @canvas.width,
       y: Math.random() * @canvas.height,
-      radius: Math.random() * 20,
-      directionX: @randomDirection(),
-      directionY: @randomDirection()
+      radius: Math.random() * 20
+
+    [newBubble.directionX, newBubble.directionY] = @chooseDirection(newBubble);
 
     @bubbles.push newBubble
 
@@ -95,5 +95,8 @@ module.exports = class Treat
     if bubble.x > @canvas.width or bubble.y > @canvas.height
       bubble.remove = true
 
-  randomDirection: ->
-    if Math.random() > 0.5 then 1 else -1
+  chooseDirection: (bubble) ->
+    directionX = if bubble.x < @canvas.width / 2 then -1 else 1
+    directionY = if bubble.y < @canvas.height / 2 then -1 else 1
+
+    [directionX, directionY]
