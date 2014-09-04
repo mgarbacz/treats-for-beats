@@ -54,7 +54,7 @@ module.exports = class Treat
     @context.arc bubbleX, bubbleY, bubbleRadius, 0, 2 * Math.PI, false
     @context.fill()
 
-    bubblesSpeed = Math.floor(bubbleRadius)
+    bubblesSpeed = Math.floor(totalData / 1000)
     @spawnBubble bubblesSpeed
     @drawBubbles()
 
