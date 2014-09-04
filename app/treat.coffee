@@ -62,10 +62,7 @@ module.exports = class Treat
     # Do next frame, unless song is paused
     window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
 
-  spawnBubble: (speed) ->
-    if speed is 0
-      return
-
+  spawnBubble: ->
     newBubble =
       x: Math.random() * @canvas.width,
       y: Math.random() * @canvas.height,
