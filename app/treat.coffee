@@ -2,6 +2,7 @@ module.exports = class Treat
   constructor: (@fillColor1, @fillColor2, @sourceBeat) ->
     @canvas =  document.getElementById 'treat'
     @context = @canvas.getContext '2d'
+    @bubbles = []
     # This array stores info about our song
     @frequencyByteData = new Uint8Array
 
@@ -51,8 +52,50 @@ module.exports = class Treat
 
     @context.beginPath()
     @context.arc bubbleX, bubbleY, bubbleRadius, 0, 2 * Math.PI, false
-
     @context.fill()
+
+    bubblesSpeed = Math.floor(bubbleRadius)
+    bubblesAmount = Math.floor(bubbleRadius)
+    @spawnBubbles bubblesSpeed, bubblesAmount
+    @drawBubbles()
 
     # Do next frame, unless song is paused
     window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
+
+  spawnBubbles: (amount, speed) ->
+    if speed is 0
+      return
+    # spawn amount of bubbles specified at about speed specified
+    for number in [0..amount]
+      @spawnBubble speed
+
+  spawnBubble: (speed) ->
+    newBubble =
+      x: @context.canvas.width / 2,
+      y: @context.canvas.height / 2,
+      radius: Math.random() * 20,
+      speed: speed
+
+    @bubbles.push newBubble
+
+  drawBubbles: ->
+    for bubble, index in @bubbles
+      if bubble and bubble.remove
+        @bubbles.splice index, 1
+      if bubble
+        @drawBubble bubble
+
+  drawBubble: (bubble) ->
+    @moveBubble bubble
+    @context.beginPath()
+    @context.arc bubble.x, bubble.y, bubble.radius, 0, 2 * Math.PI, false
+    @context.fill()
+
+  moveBubble: (bubble) ->
+    randomatorX = if Math.random() > 0.5 then 1 else -1
+    randomatorY = if Math.random() > 0.5 then 1 else -1
+    bubble.x += randomatorX * bubble.speed
+    bubble.y += randomatorY * bubble.speed
+
+    if bubble.x > @canvas.width or bubble.y > @canvas.height
+      bubble.remove = true
