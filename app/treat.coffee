@@ -46,31 +46,32 @@ module.exports = class Treat
     for byteData in @frequencyByteData
       totalData += byteData
 
-    bubbleRadius = totalData / 100
-    bubbleX = @context.canvas.width / 2
-    bubbleY = @context.canvas.height / 2
+    pulserRadius = totalData / 100
+    pulserX = @context.canvas.width / 2
+    pulserY = @context.canvas.height / 2
 
     @context.beginPath()
-    @context.arc bubbleX, bubbleY, bubbleRadius, 0, 2 * Math.PI, false
+    @context.arc pulserX, pulserY, pulserRadius, 0, 2 * Math.PI, false
     @context.fill()
 
-    bubblesSpeed = Math.floor(totalData / 1000)
-    if bubblesSpeed isnt 0
+    bubbleSpeed = Math.floor(totalData / 1000)
+    if bubbleSpeed isnt 0
       @spawnBubble()
-      @drawBubbles bubblesSpeed
+      @drawBubbles bubbleSpeed
 
     # Do next frame, unless song is paused
     window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
 
   spawnBubble: ->
-    newBubble =
+    bubble =
       x: Math.random() * @canvas.width,
       y: Math.random() * @canvas.height,
-      radius: Math.random() * 20
+      radius: Math.random() * 20,
+      direction: {}
 
-    [newBubble.directionX, newBubble.directionY] = @chooseDirection(newBubble);
+    [bubble.direction.x, bubble.direction.y] = @chooseDirection(bubble);
 
-    @bubbles.push newBubble
+    @bubbles.push bubble
 
   drawBubbles: (speed) ->
     for bubble, index in @bubbles
@@ -86,14 +87,14 @@ module.exports = class Treat
     @context.fill()
 
   moveBubble: (bubble, speed) ->
-    bubble.x += bubble.directionX * speed
-    bubble.y += bubble.directionY * speed
+    bubble.x += bubble.direction.x * speed
+    bubble.y += bubble.direction.y * speed
 
     if bubble.x > @canvas.width or bubble.y > @canvas.height
       bubble.remove = true
 
   chooseDirection: (bubble) ->
-    directionX = if bubble.x < @canvas.width / 2 then -1 else 1
-    directionY = if bubble.y < @canvas.height / 2 then -1 else 1
+    x = if bubble.x < @canvas.width / 2 then -1 else 1
+    y = if bubble.y < @canvas.height / 2 then -1 else 1
 
-    [directionX, directionY]
+    return [x, y]
