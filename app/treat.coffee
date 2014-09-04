@@ -55,19 +55,11 @@ module.exports = class Treat
     @context.fill()
 
     bubblesSpeed = Math.floor(bubbleRadius)
-    bubblesAmount = Math.floor(bubbleRadius)
-    @spawnBubbles bubblesSpeed, bubblesAmount
+    @spawnBubble bubblesSpeed
     @drawBubbles()
 
     # Do next frame, unless song is paused
     window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
-
-  spawnBubbles: (amount, speed) ->
-    if speed is 0
-      return
-    # spawn amount of bubbles specified at about speed specified
-    for number in [0..amount]
-      @spawnBubble speed
 
   spawnBubble: (speed) ->
     newBubble =
