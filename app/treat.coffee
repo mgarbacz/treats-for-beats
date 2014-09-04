@@ -55,39 +55,45 @@ module.exports = class Treat
     @context.fill()
 
     bubblesSpeed = Math.floor(totalData / 1000)
-    @spawnBubble bubblesSpeed
-    @drawBubbles()
+    if bubblesSpeed isnt 0
+      @spawnBubble()
+      @drawBubbles bubblesSpeed
 
     # Do next frame, unless song is paused
     window.requestAnimationFrame => @animate() if !@sourceBeat.audio.paused
 
   spawnBubble: (speed) ->
+    if speed is 0
+      return
+
     newBubble =
-      x: @context.canvas.width / 2,
-      y: @context.canvas.height / 2,
+      x: Math.random() * @canvas.width,
+      y: Math.random() * @canvas.height,
       radius: Math.random() * 20,
-      speed: speed
+      directionX: @randomDirection(),
+      directionY: @randomDirection()
 
     @bubbles.push newBubble
 
-  drawBubbles: ->
+  drawBubbles: (speed) ->
     for bubble, index in @bubbles
       if bubble and bubble.remove
         @bubbles.splice index, 1
       if bubble
-        @drawBubble bubble
+        @drawBubble bubble, speed
 
-  drawBubble: (bubble) ->
-    @moveBubble bubble
+  drawBubble: (bubble, speed) ->
+    @moveBubble bubble, speed
     @context.beginPath()
     @context.arc bubble.x, bubble.y, bubble.radius, 0, 2 * Math.PI, false
     @context.fill()
 
-  moveBubble: (bubble) ->
-    randomatorX = if Math.random() > 0.5 then 1 else -1
-    randomatorY = if Math.random() > 0.5 then 1 else -1
-    bubble.x += randomatorX * bubble.speed
-    bubble.y += randomatorY * bubble.speed
+  moveBubble: (bubble, speed) ->
+    bubble.x += bubble.directionX * speed
+    bubble.y += bubble.directionY * speed
 
     if bubble.x > @canvas.width or bubble.y > @canvas.height
       bubble.remove = true
+
+  randomDirection: ->
+    if Math.random() > 0.5 then 1 else -1
