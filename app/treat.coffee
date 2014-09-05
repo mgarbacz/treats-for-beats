@@ -89,6 +89,7 @@ module.exports = class Treat
   moveBubble: (bubble, speed) ->
     bubble.x += bubble.direction.x * speed
     bubble.y += bubble.direction.y * speed
+    bubble.radius += 0.1;
 
     if bubble.x > @canvas.width or bubble.y > @canvas.height
       bubble.remove = true
